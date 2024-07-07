@@ -1,7 +1,0 @@
-Dy faqe duke perdorur router
-- faqja 1 do kete nje forme qe do shtohet nje product:
-	-emri
-	-njesia matese
-	-stoku
-
-- faqja e dyte do shfaqen te gjithe produktet, dhe ke mundesi te zgjedhesh sasine nga nje product, dhe kjo do pasqyrohet tek nje card.Card do permbaje emrin , sasine dhe cmimin per nje product, vlera = sasi x cmim dhe totali sepse mund te kete disa produkte

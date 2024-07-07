@@ -5,8 +5,10 @@ import "./productsStyle.css";
 const Shop = () => {
   return (
     <div className="shop">
-      <Products />
-      <Cart />
+      <div className="shoping-products">
+        <Products />
+        <Cart />
+      </div>
       <Link to="/">
         <button>Manage Products</button>
       </Link>

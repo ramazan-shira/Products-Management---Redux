@@ -10,6 +10,12 @@ body {
   margin: 0;
   padding: 50px;
   box-sizing: border-box;
+  min-height: 100vh;
+  padding-top: 30px;
+}
+
+#root {
+  width: 100%;
 }
 
 .app {
@@ -18,43 +24,115 @@ body {
   justify-content: center;
   align-items: flex-start;
   width: 100%;
+  gap: 50px;
+}
+
+.login-page {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 100px;
 }
 
-.login {
+.signin-form {
+  width: 100%;
+  margin-left: 200px;
+}
+
+.signin-form h1 {
+  font-size: 56px;
+  color: #457b9d;
+  margin-bottom: 30px;
+  margin-left: 100px;
+}
+
+.input-group {
+  position: relative;
+  height: 55px;
+  margin-bottom: 1.2em;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 70px;
 }
 
-.login h1 {
-  font-size: 48px;
-  font-weight: 600;
-  color: #c1121f;
-}
-
-.login-form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 20px;
-}
-
-.login-form input {
-  font-size: 20px;
+.input-group > input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 400px;
+  height: 100%;
+  border: 1px solid #e5e5e5;
+  outline: none;
+  background: #fff;
   border-radius: 10px;
-  padding: 10px;
+  padding: 0 15px;
+  font-size: 20px;
+}
+
+::placeholder {
+  opacity: 0;
+}
+
+.input-group > label {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translate(0, -50%);
+  font-size: 16px;
+  background: #fff;
+  padding: 0 12px;
+  transition: all 0.3s ease-in-out;
+  z-index: 2;
+}
+
+.input-group > input:focus + label,
+.input-group > input:not(:placeholder-shown) + label {
+  top: 0;
+  left: 5px;
+  font-size: 12px;
+  color: #1b4965;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+}
+
+.input-group > input:focus {
+  border-width: 2px;
+  border-color: #1b4965;
+}
+
+.form-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-footer > button {
+  border: 2px solid #1b4965;
+  outline: none;
+  background-color: #1b4965;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+  padding: 10px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  margin-left: 100px;
+}
+
+.form-footer > button:hover {
+  transform: scale(0.9);
+  background: #fff;
+  color: #1b4965;
 }
 
 .login-form button {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 600;
-  padding: 12px;
+  padding: 15px;
   color: white;
   background-color: #1d3557;
   border-radius: 10px;
@@ -64,8 +142,17 @@ body {
 
 .action {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 30px;
+}
+
+.action p {
+  font-size: 38px;
+  font-weight: 600;
+  margin: 0;
+  color: #4c956c;
 }
 
 .action a {
@@ -73,21 +160,48 @@ body {
 }
 
 .action a button {
-  font-size: 20px;
+  font-size: 28px;
   font-weight: 600;
   padding: 12px;
   border-radius: 10px;
   border: none;
   color: white;
   background-color: #06dd58;
+  cursor: pointer;
 }
 
 .products-management {
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 100px;
+  gap: 50px;
+}
+
+.log-out {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.log-out button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #343a40;
+  background-color: #e9ecef;
+  border: 1px solid #212529;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.log-out button i {
+  margin-left: 5px;
 }
 
 .add-products {
@@ -216,6 +330,7 @@ body {
 }
 
 .products {
+  padding-top: 50px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -253,6 +368,7 @@ body {
 }
 
 .product-info {
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -260,6 +376,14 @@ body {
   gap: 0px;
   padding-bottom: 10px;
   border-bottom: 1px dashed #1d3557;
+}
+
+.product-info .name {
+  width: 100%;
+  font-size: 34px;
+  font-weight: 600;
+  color: #4a7c59;
+  text-align: center;
 }
 
 .product-info p {
@@ -301,7 +425,7 @@ body {
 }
 
 .quantity input {
-  width: 20px;
+  width: 30px;
   height: 25px;
   text-align: center;
   border: none;
@@ -374,4 +498,136 @@ body {
   background-color: #06dd58;
   padding: 5px 10px;
   border-radius: 10px;
+}
+
+@media (width <= 1240px) {
+  .signin-form {
+    margin-left: 100px;
+  }
+}
+
+@media (width <= 1080px) {
+  .signin-form {
+    margin-left: 0px;
+  }
+}
+
+@media (width <= 930px) {
+  .login-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 70px;
+  }
+
+  .signin-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .signin-form h1 {
+    margin: 0;
+    margin-bottom: 20px;
+  }
+
+  .input-group {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .input-group > input {
+    left: auto;
+  }
+
+  .input-group > label {
+    left: 190px;
+    text-align: left;
+  }
+
+  .input-group > input:focus + label,
+  .input-group > input:not(:placeholder-shown) + label {
+    top: 0;
+    left: 190px;
+  }
+
+  .form-footer > button {
+    margin: 0;
+  }
+}
+
+@media (width <= 834px) {
+  .input-group > label {
+    left: 145px;
+    text-align: left;
+  }
+
+  .input-group > input:focus + label,
+  .input-group > input:not(:placeholder-shown) + label {
+    top: 0;
+    left: 145px;
+  }
+
+  .form-footer > button {
+    margin: 0;
+  }
+}
+
+@media (width <= 768px) {
+  .input-group > label {
+    left: 110px;
+    text-align: left;
+  }
+
+  .input-group > input:focus + label,
+  .input-group > input:not(:placeholder-shown) + label {
+    top: 0;
+    left: 110px;
+  }
+
+  .form-footer > button {
+    margin: 0;
+  }
+}
+
+@media (width <= 650px) {
+  body {
+    padding: 30px;
+  }
+}
+
+@media (width <= 570px) {
+  .input {
+    flex-direction: column;
+  }
+}
+
+@media (width <= 480px) {
+  .input-group > input {
+    width: 300px;
+  }
+  .input-group > label {
+    left: 10px;
+    text-align: left;
+  }
+
+  .input-group > input:focus + label,
+  .input-group > input:not(:placeholder-shown) + label {
+    top: 0;
+    left: 10px;
+  }
+
+  .form-footer > button {
+    margin: 0;
+  }
+}
+
+@media (width <= 460px) {
+  .add-products h1 {
+    font-size: 42px;
+  }
 }

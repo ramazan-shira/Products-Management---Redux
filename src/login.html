@@ -1,0 +1,73 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { toggleLogin } from "./productsSlice";
+
+const Login = () => {
+  const validLogin = useSelector((state) => state.products.validLogin);
+  const dispatch = useDispatch();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const loginError = useSelector((state) => state.products.loginError);
+
+  const handleLog = () => {
+    dispatch(toggleLogin({ username, password }));
+  };
+
+  useEffect(() => {
+    if (validLogin) {
+      navigate("/manage-products");
+    }
+  }, [validLogin]);
+
+  return (
+    <div className="login-page">
+      {!validLogin && (
+        <form class="login-form">
+          <h2>Login</h2>
+          <div class="input-floating-label">
+            <input
+              class="input"
+              type="text"
+              id="input"
+              name="input"
+              placeholder="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <label for="input">Username</label>
+            <span class="focus-bg"></span>
+          </div>
+          <div class="input-floating-label">
+            <input
+              class="input"
+              type="password"
+              id="input"
+              name="input"
+              placeholder="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <label for="input">Password</label>
+            <span class="focus-bg"></span>
+          </div>
+          {loginError && <div className="error">{loginError}</div>}
+
+          <button id="submit" class="btn-submit" onClick={handleLog}>
+            Login
+          </button>
+        </form>
+      )}
+      <div className="action">
+        <p>Are you a client?</p>
+        <Link to="/shop">
+          <button>Buy</button>
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+export default Login;
