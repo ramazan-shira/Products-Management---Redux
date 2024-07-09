@@ -12,13 +12,18 @@ const BuyQuantity = (props) => {
       setQuantity((prevQuantity) => prevQuantity + 1);
       setError("");
     } else {
+      setQuantity((prevQuantity) => prevQuantity + 1);
       setError("Out of stock!");
     }
   };
 
   const handleDecrease = () => {
+    if (quantity - 1 <= product.availableStock) {
+      setError("");
+    } else {
+      setError("Out of stock!");
+    }
     setQuantity((prevQuantity) => prevQuantity - 1);
-    setError("");
   };
 
   const dispatch = useDispatch();
@@ -52,18 +57,14 @@ const BuyQuantity = (props) => {
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
           />
-          <button
-            className="plus"
-            onClick={handleIncrease}
-            disabled={quantity > product.availableStock}
-          >
+          <button className="plus" onClick={handleIncrease}>
             <i className="fa-solid fa-plus"></i>
           </button>
           <div className="cart-btn">
             <button
               className="cart"
               onClick={() => addInBag(product)}
-              disabled={quantity >= product.availableStock}
+              disabled={quantity > product.availableStock}
             >
               <i className="fa-solid fa-cart-shopping"></i>
             </button>

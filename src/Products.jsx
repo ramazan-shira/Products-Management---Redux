@@ -1,6 +1,6 @@
-import { useSelector } from "react-redux";
 import "./productsStyle.css";
 import BuyQuantity from "./BuyQuantity";
+import { useSelector } from "react-redux";
 
 const Products = () => {
   const products = useSelector((state) => state.products.products);

@@ -175,7 +175,7 @@ body {
   gap: 10px;
   border: 2px solid grey;
   border-radius: 15px;
-  min-width: 350px;
+  min-width: 400px;
   min-height: 400px;
   box-sizing: border-box;
   padding: 30px;
@@ -287,6 +287,25 @@ body {
 .fa-square-xmark {
   font-size: 22px;
   color: red;
+}
+
+.total {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 30px;
+}
+
+.total button {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.fa-square-check {
+  font-size: 42px;
+  color: #1ff45f;
 }
 
 @media (width <= 1200px) {

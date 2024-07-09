@@ -3,12 +3,12 @@ import { createSlice } from "@reduxjs/toolkit";
 export const productsSlice = createSlice({
   name: "products",
   initialState: {
-    products: [],
+    products: JSON.parse(localStorage.getItem("products")),
     onEdit: false,
     productOnEdit: {},
     productsInBag: [],
     bagTotal: 0,
-    validLogin: false,
+    validLogin: JSON.parse(localStorage.getItem("validLogin")),
     loginError: "",
     quantityError: "",
   },
@@ -24,17 +24,20 @@ export const productsSlice = createSlice({
           id: new Date().getTime(),
           name: action.payload.name,
           unit: action.payload.unit,
-          price: action.payload.price,
-          quantity: action.payload.quantity,
-          availableStock: action.payload.quantity,
+          price: Number(action.payload.price),
+          quantity: Number(action.payload.quantity),
+          availableStock: Number(action.payload.quantity),
         });
       }
+
+      localStorage.setItem("products", JSON.stringify(state.products));
     },
 
     deleteProduct: (state, action) => {
       state.products = state.products.filter(
         (product) => product.id !== action.payload.id
       );
+      localStorage.setItem("products", JSON.stringify(state.products));
     },
 
     toggleOnEdit: (state, action) => {
@@ -55,6 +58,7 @@ export const productsSlice = createSlice({
         }
         return product;
       });
+      localStorage.setItem("products", JSON.stringify(state.products));
     },
 
     addQuantity: (state, action) => {
@@ -65,6 +69,7 @@ export const productsSlice = createSlice({
         }
         return product;
       });
+      localStorage.setItem("products", JSON.stringify(state.products));
     },
 
     toggleLogin: (state, action) => {
@@ -75,12 +80,15 @@ export const productsSlice = createSlice({
         state.validLogin = true;
         state.loginError = "";
       } else {
+        state.validLogin = false;
         state.loginError = "Incorrect username or password!";
       }
+      localStorage.setItem("validLogin", JSON.stringify(state.validLogin));
     },
 
     toggleLogOut: (state, action) => {
       state.validLogin = false;
+      localStorage.setItem("validLogin", JSON.stringify(state.validLogin));
     },
 
     addToBag: (state, action) => {
@@ -102,8 +110,15 @@ export const productsSlice = createSlice({
           quantity: action.payload.quantity,
           price: action.payload.price,
           value: action.payload.value,
+          quantityError: "",
         });
       }
+      state.products = state.products.map((product) => {
+        if (product.id === action.payload.id) {
+          product.availableStock -= action.payload.quantity;
+        }
+        return product;
+      });
       state.bagTotal += action.payload.value;
     },
 
@@ -114,41 +129,42 @@ export const productsSlice = createSlice({
           productInBag.quantity > 1
         ) {
           productInBag.quantity -= 1;
+          state.products = state.products.map((product) => {
+            if (product.id === action.payload.id) {
+              product.availableStock += 1;
+            }
+            return product;
+          });
           state.bagTotal -= Number(productInBag.price);
-          state.quantityError = "";
+          productInBag.quantityError = "";
         }
         return productInBag;
       });
     },
 
-    // increaseQuantity: (state, action) => {
-    //   state.productsInBag = state.productsInBag.map((productInBag) => {
-    //     if (productInBag.id === action.payload.id) {
-    //       productInBag.quantity += 1;
-    //       state.bagTotal += Number(productInBag.price);
-    //     }
-    //     return productInBag;
-    //   });
-    // },
     increaseQuantity: (state, action) => {
-      state.products.map((product) => {
-        if (product.id === action.payload.id) {
-          state.productsInBag.map((productInBag) => {
-            if (
-              productInBag.id === action.payload.id &&
-              productInBag.quantity < product.quantity
-            ) {
-              productInBag.quantity += 1;
-              state.bagTotal += Number(productInBag.price);
-              state.quantityError = "";
-              product.availableStock -= productInBag.quantity;
-            } else {
-              state.quantityError = "Out of stock!";
-            }
-            return productInBag;
-          });
+      const selectedProduct = state.products.find(
+        (product) => product.id === action.payload.id
+      );
+
+      state.productsInBag = state.productsInBag.map((productInBag) => {
+        if (productInBag.id === action.payload.id) {
+          if (productInBag.quantity < selectedProduct.quantity) {
+            productInBag.quantity += 1;
+            selectedProduct.availableStock -= 1;
+            state.bagTotal += productInBag.price;
+            state.products = state.products.map((product) => {
+              if (product.id === action.payload.id) {
+                product.availableStock =
+                  product.quantity - productInBag.quantity;
+              }
+              return product;
+            });
+          } else {
+            productInBag.quantityError = "Out of stock!";
+          }
         }
-        return product;
+        return productInBag;
       });
     },
 
@@ -156,9 +172,30 @@ export const productsSlice = createSlice({
       state.productsInBag = state.productsInBag.filter(
         (productInBag) => productInBag.id !== action.payload.productInBag.id
       );
+      state.products = state.products.map((product) => {
+        if (product.id === action.payload.productInBag.id) {
+          product.availableStock = product.quantity;
+        }
+        return product;
+      });
       state.bagTotal -=
         action.payload.productInBag.price *
         action.payload.productInBag.quantity;
+      localStorage.setItem("products", JSON.stringify(state.products));
+    },
+    completeShopping: (state, action) => {
+      state.productsInBag = state.productsInBag.map((productInBag) => {
+        state.products = state.products.map((product) => {
+          if (product.id === productInBag.id) {
+            product.quantity -= productInBag.quantity;
+            product.availableStock = product.quantity;
+          }
+          return product;
+        });
+        return productInBag;
+      });
+      state.productsInBag = [];
+      localStorage.setItem("products", JSON.stringify(state.products));
     },
   },
 });
@@ -177,5 +214,6 @@ export const {
   decreaseQuantity,
   increaseQuantity,
   removeFromCart,
+  completeShopping,
 } = productsSlice.actions;
 export default productsSlice.reducer;

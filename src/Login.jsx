@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { toggleLogin } from "./productsSlice";
 
 const Login = () => {
-  const validLogin = useSelector((state) => state.products.validLogin);
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -15,6 +14,8 @@ const Login = () => {
   const handleLog = () => {
     dispatch(toggleLogin({ username, password }));
   };
+
+  const validLogin = useSelector((state) => state.products.validLogin);
 
   useEffect(() => {
     if (validLogin) {
@@ -35,7 +36,7 @@ const Login = () => {
               placeholder="p"
               onChange={(e) => setUsername(e.target.value)}
             />
-            <label for="username">Username</label>
+            <label htmlFor="username">Username</label>
           </div>
           <div className="input-group">
             <input
@@ -45,7 +46,7 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="p"
             />
-            <label for="password">Password</label>
+            <label htmlFor="password">Password</label>
           </div>
           {loginError && <div className="error">{loginError}</div>}
           <div className="form-footer">

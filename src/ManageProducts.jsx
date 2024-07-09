@@ -1,5 +1,5 @@
 import "./style.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addProduct,
@@ -24,7 +24,6 @@ const ManageProducts = () => {
   const [priceError, setPriceError] = useState("");
   const [quantityError, setQuantityError] = useState("");
 
-  const validLogin = useSelector((state) => state.products.validLogin);
   const onEdit = useSelector((state) => state.products.onEdit);
   const productOnEdit = useSelector((state) => state.products.productOnEdit);
 
@@ -124,9 +123,13 @@ const ManageProducts = () => {
 
   const products = useSelector((state) => state.products.products);
 
+  const validLogin = useSelector((state) => state.products.validLogin);
+
   const navigate = useNavigate("");
+
   const logOut = () => {
     dispatch(toggleLogOut());
+    localStorage.setItem("validLogin", false);
     navigate("/");
   };
   return (

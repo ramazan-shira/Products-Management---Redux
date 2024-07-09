@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import "./productsStyle.css";
 import {
+  completeShopping,
   decreaseQuantity,
   increaseQuantity,
   removeFromCart,
@@ -8,8 +9,6 @@ import {
 const Cart = () => {
   const productsInBag = useSelector((state) => state.products.productsInBag);
   const bagTotal = useSelector((state) => state.products.bagTotal);
-
-  const quantityError = useSelector((state) => state.products.quantityError);
 
   const dispatch = useDispatch();
 
@@ -23,6 +22,10 @@ const Cart = () => {
 
   const handleRemove = (productInBag) => {
     dispatch(removeFromCart({ productInBag }));
+  };
+
+  const handleComplete = () => {
+    dispatch(completeShopping());
   };
   return (
     <div className="shopping-cart">
@@ -54,7 +57,7 @@ const Cart = () => {
                 </p>
               </div>
             </div>
-            <div className="error">{quantityError}</div>
+            <div className="error">{productInBag.quantityError}</div>
           </div>
           <div className="cart-action">
             <button onClick={() => handleRemove(productInBag)}>
@@ -63,7 +66,12 @@ const Cart = () => {
           </div>
         </div>
       ))}
-      <p className="total">Total: {bagTotal}</p>
+      <div className="total">
+        <p className="total">Total: {bagTotal}</p>
+        <button onClick={handleComplete}>
+          <i className="fa-solid fa-square-check"></i>
+        </button>
+      </div>
     </div>
   );
 };
