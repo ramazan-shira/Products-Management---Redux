@@ -211,7 +211,7 @@ const ManageProducts = () => {
             <button className="view-products">Buy Products</button>
           </Link>
         </div>
-        {products && (
+        {products.length > 0 && (
           <div className="products">
             <h1 className="products-title">Products</h1>
             <div className="products-cards">
